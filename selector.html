@@ -9,7 +9,6 @@
 body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;background:#f5f5f7;color:#1a1f36;min-height:100vh;display:flex;-webkit-font-smoothing:antialiased;line-height:1.5}
 .layout{display:flex;width:100%;min-height:100vh}
 
-/* ── LEFT PANEL ── */
 .left{width:440px;background:#1a1f36;color:#fff;display:flex;flex-direction:column;flex-shrink:0}
 .left-inner{padding:48px 40px;display:flex;flex-direction:column;height:100%;max-width:380px;margin-left:auto}
 .logo-row{display:flex;align-items:center;gap:10px;margin-bottom:32px}
@@ -31,34 +30,34 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica N
 .secure-badge{margin-top:auto;padding-top:32px;display:flex;align-items:center;gap:5px;color:rgba(255,255,255,.25);font-size:10px}
 .secure-badge svg{width:10px;height:10px}
 
-/* ── RIGHT PANEL ── */
 .right{flex:1;display:flex;justify-content:flex-start;overflow-y:auto;background:#f5f5f7}
 .right-inner{width:100%;max-width:480px;padding:48px 40px;display:flex;flex-direction:column}
 
 .section-label{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:#6b7c93;margin-bottom:8px}
 
-/* email */
 .email-wrap{margin-bottom:20px}
 .email-input{width:100%;height:40px;padding:0 12px;font-size:14px;font-family:inherit;border:1px solid #d8dee4;border-radius:6px;background:#fff;color:#1a1f36;outline:none;transition:border .15s,box-shadow .15s}
 .email-input:focus{border-color:#635bff;box-shadow:0 0 0 3px rgba(99,91,255,.12)}
 .email-input.locked{background:#f0f2f5;color:#8892a0;cursor:not-allowed;border-color:#e3e8ee}
 
-/* divider */
 .divider{display:flex;align-items:center;gap:8px;margin:4px 0 16px;font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:#9ca3af}
 .divider::before,.divider::after{content:'';flex:1;height:1px;background:#e3e8ee}
 
-/* payment list */
 .pay-scroll{display:flex;flex-direction:column;gap:4px;flex:1;overflow-y:auto;margin-bottom:16px;padding-right:2px}
 .pay-scroll::-webkit-scrollbar{width:3px}
 .pay-scroll::-webkit-scrollbar-track{background:transparent}
 .pay-scroll::-webkit-scrollbar-thumb{background:#d0d5dd;border-radius:3px}
+
+.pay-cat{font-size:11px;font-weight:600;color:#6b7c93;text-transform:uppercase;letter-spacing:.06em;margin:12px 0 6px;padding-top:4px}
+.pay-cat:first-child{margin-top:0;padding-top:0}
 
 .pay-btn{display:flex;align-items:center;gap:10px;width:100%;padding:10px 12px;background:#fff;border:1.5px solid #e3e8ee;border-radius:6px;cursor:pointer;transition:all .12s;text-align:left;font-family:inherit}
 .pay-btn:hover{border-color:#c4c9d2}
 .pay-btn.selected{border-color:#635bff;background:#fafaff;box-shadow:0 0 0 2.5px rgba(99,91,255,.1)}
 .pay-btn.disabled{opacity:.4;pointer-events:none;filter:grayscale(30%)}
 
-.pi{width:32px;height:32px;border-radius:5px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:11px;font-weight:700}
+.pi{width:32px;height:32px;border-radius:5px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:11px;font-weight:700;overflow:hidden;background:#fff}
+.pi img{width:100%;height:100%;object-fit:contain}
 .pm{flex:1;min-width:0}
 .pm-name{font-size:13px;font-weight:600;color:#1a1f36;line-height:1.2}
 .pm-desc{font-size:11px;color:#8892a0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
@@ -67,7 +66,6 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica N
 .pm-min.ok{background:#f0f2f5;color:#6b7c93}
 .pm-min.low{background:#fef2f2;color:#dc2626}
 
-/* checkout */
 .checkout-btn{width:100%;height:44px;font-size:14px;font-weight:600;color:#fff;background:#635bff;border:none;border-radius:6px;cursor:pointer;transition:all .12s;font-family:inherit;position:relative;overflow:hidden}
 .checkout-btn:hover:not(:disabled){background:#5147e5}
 .checkout-btn:disabled{cursor:not-allowed}
@@ -76,16 +74,10 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica N
 .checkout-btn.loading::after{content:'';position:absolute;width:18px;height:18px;top:50%;left:50%;margin:-9px 0 0 -9px;border:2px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:spin .55s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
 
-/* url hint */
-.url-hint{display:none;margin-top:8px;padding:12px;background:#fff;border:1px solid #e3e8ee;border-radius:6px;font-size:11px;color:#4b5563;word-break:break-all;line-height:1.7}
-.url-hint strong{color:#1a1f36;font-size:11px}
-.url-hint code{background:#f0f2f5;padding:1px 4px;border-radius:3px;font-size:10px;font-family:'SF Mono',Consolas,monospace;color:#374151}
-
 .powered{text-align:center;font-size:10px;color:#a0aab4;padding-top:16px;margin-top:auto}
 .powered a{color:#8892a0;text-decoration:none;font-weight:500}
 .powered a:hover{color:#1a1f36}
 
-/* mobile */
 @media(max-width:960px){
 .layout{flex-direction:column}
 .left{width:100%;flex-shrink:unset;min-height:auto}
@@ -104,11 +96,10 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica N
 <body>
 <div class="layout">
 
-<!-- LEFT PANEL -->
 <div class="left">
 <div class="left-inner">
 <div class="logo-row">
-<div class="logo-box">Logo</div>
+<div class="logo-box" id="logoBox">Logo</div>
 <span class="company-name" id="companyName">Company</span>
 </div>
 <div class="order-label">Total due</div>
@@ -121,7 +112,6 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica N
 </div>
 </div>
 
-<!-- RIGHT PANEL -->
 <div class="right">
 <div class="right-inner">
 
@@ -135,8 +125,6 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica N
 <div class="pay-scroll" id="payList"></div>
 
 <button class="checkout-btn idle" id="checkoutBtn" disabled>Select a provider</button>
-<div class="url-hint" id="urlHint"></div>
-
 <div class="powered">Powered by <a href="#" id="footCompany">Company</a></div>
 
 </div>
@@ -146,31 +134,32 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica N
 <script>
 (function(){
 var P=[
-{id:"stripe",name:"Stripe",min:2,cur:"$",tag:"USA",c:"#635bff",bg:"#eeedff",desc:"Cards, Apple Pay, Google Pay",url:"https://stripe-checkout.example.com/?email={email}&amount={amount}&company={company}"},
-{id:"coinbase",name:"Coinbase Pay",min:2,cur:"$",tag:"Crypto",c:"#0052ff",bg:"#e8f0ff",desc:"Pay from Coinbase wallet",url:"https://commerce.coinbase.com/pay?email={email}&amount={amount}&company={company}"},
-{id:"ramp",name:"Ramp Network",min:4,cur:"$",tag:"Global",c:"#21bf73",bg:"#e6f9f0",desc:"Card or bank transfer worldwide",url:"https://buy.ramp.network/?userEmailAddress={email}&fiatValue={amount}&hostAppName={company}"},
-{id:"switchere",name:"Switchere",min:5,cur:"$",tag:"EU",c:"#f7931a",bg:"#fef3e2",desc:"Instant crypto exchange with cards",url:"https://switchere.com/widget?email={email}&amount={amount}&partner={company}"},
-{id:"robinhood",name:"Robinhood",min:5,cur:"$",tag:"USA",c:"#00c805",bg:"#e6fbe7",desc:"Commission-free investing app",url:"https://robinhood.com/checkout?email={email}&amount={amount}&ref={company}"},
-{id:"unlimit",name:"Unlimit",min:10,cur:"$",tag:"Global",c:"#ff5722",bg:"#fff0ec",desc:"Multi-currency payment solutions",url:"https://pay.unlimit.com/?email={email}&amount={amount}&merchant={company}"},
-{id:"bitnovo",name:"Bitnovo",min:10,cur:"$",tag:"EU",c:"#1e88e5",bg:"#e3f2fd",desc:"Buy crypto with cash or card",url:"https://widget.bitnovo.com/?email={email}&amount={amount}&partner={company}"},
-{id:"swipelux",name:"Swipelux",min:14,cur:"$",tag:"Global",c:"#7c4dff",bg:"#f3eeff",desc:"Seamless fiat-to-crypto onramp",url:"https://buy.swipelux.com/?email={email}&amount={amount}&partner={company}"},
-{id:"alchemypay",name:"Alchemy Pay",min:15,cur:"$",tag:"Global",c:"#2962ff",bg:"#e8eeff",desc:"Hybrid crypto-fiat payment",url:"https://ramp.alchemypay.org/?email={email}&amount={amount}&appId={company}"},
-{id:"revolut",name:"Revolut",min:15,cur:"$",tag:"Global",c:"#0075eb",bg:"#e5f2ff",desc:"Digital banking & crypto",url:"https://pay.revolut.com/?email={email}&amount={amount}&merchant={company}"},
-{id:"transak",name:"Transak",min:15,cur:"$",tag:"Global",c:"#0064ff",bg:"#e5efff",desc:"Fiat on-ramp aggregator",url:"https://global.transak.com/?email={email}&fiatAmount={amount}&partnerName={company}"},
-{id:"kado",name:"Kado",min:15,cur:"$",tag:"Global",c:"#6366f1",bg:"#eef0ff",desc:"On/off ramp for Web3",url:"https://app.kado.money/?email={email}&amount={amount}&product={company}"},
-{id:"moonpay",name:"MoonPay",min:20,cur:"$",tag:"Global",c:"#7b61ff",bg:"#f1edff",desc:"Buy crypto with card or bank",url:"https://buy.moonpay.com/?email={email}&baseCurrencyAmount={amount}&ref={company}"},
-{id:"banxa",name:"Banxa",min:20,cur:"$",tag:"Global",c:"#00d2ff",bg:"#e5f9ff",desc:"Global fiat-to-crypto gateway",url:"https://checkout.banxa.com/?email={email}&fiatAmount={amount}&partner={company}"},
-{id:"guardarian",name:"Guardarian",min:20,cur:"$",tag:"EU",c:"#3f51b5",bg:"#ebeeff",desc:"Non-custodial crypto exchange",url:"https://guardarian.com/buy?email={email}&amount={amount}&partner={company}"},
-{id:"changenow",name:"ChangeNOW",min:20,cur:"$",tag:"Global",c:"#00c26f",bg:"#e5f8f0",desc:"Limitless crypto exchange",url:"https://changenow.io/exchange?email={email}&amount={amount}&ref={company}"},
-{id:"mercuryo",name:"mercuryo.io",min:30,cur:"$",tag:"Global",c:"#4fc3f7",bg:"#e5f5ff",desc:"Crypto widget for businesses",url:"https://exchange.mercuryo.io/?email={email}&amount={amount}&merchant_id={company}"},
-{id:"simpleswap",name:"SimpleSwap",min:30,cur:"$",tag:"Global",c:"#5856d6",bg:"#eeedff",desc:"Free from sign-up crypto swap",url:"https://simpleswap.io/exchange?email={email}&amount={amount}&ref={company}"},
-{id:"sardine",name:"Sardine.ai",min:30,cur:"$",tag:"USA",c:"#1a73e8",bg:"#e5f0ff",desc:"Fraud-free crypto onramp",url:"https://sardine.ai/checkout?email={email}&amount={amount}&clientId={company}"},
-{id:"particle",name:"particle.network",min:30,cur:"$",tag:"Web3",c:"#9c27b0",bg:"#f5e9f7",desc:"Web3 wallet-as-a-service",url:"https://ramp.particle.network/?email={email}&amount={amount}&projectName={company}"},
-{id:"simplex",name:"Simplex",min:50,cur:"$",tag:"Global",c:"#ff6d00",bg:"#fff3e0",desc:"Trusted fiat-crypto infrastructure",url:"https://checkout.simplex.com/?email={email}&amount={amount}&partner={company}"},
-{id:"utorg",name:"UTORG",min:50,cur:"$",tag:"Global",c:"#304ffe",bg:"#e6e9ff",desc:"Regulated crypto on-ramp",url:"https://app.utorg.pro/?email={email}&amount={amount}&partner={company}"},
-{id:"transfi",name:"Transfi",min:70,cur:"$",tag:"Global",c:"#00897b",bg:"#e0f2f1",desc:"Cross-border payment rails",url:"https://buy.transfi.com/?email={email}&amount={amount}&partner={company}"},
-{id:"interac",name:"Interac",min:100,cur:"CA$",tag:"Canada",c:"#ffc107",bg:"#fff9e5",desc:"Canadian e-Transfer",url:"https://interac.ca/pay?email={email}&amount={amount}&merchant={company}"},
-{id:"upi",name:"UPI / IMPS",min:100,cur:"\u20B9",tag:"India",c:"#4caf50",bg:"#e8f5e9",desc:"Indian instant payments",url:"https://upi.example.com/?email={email}&amount={amount}&merchant={company}"}
+{id:"stripe",name:"Stripe",min:2,cur:"$",tag:"USA",c:"#635bff",bg:"#eeedff",desc:"Cards, Apple Pay, Google Pay",cat:"Credit Card",logo:"https://logo.clearbit.com/stripe.com",url:"https://stripe-checkout.example.com/?email={email}&amount={amount}&company={company}"},
+{id:"coinbase",name:"Coinbase Pay",min:2,cur:"$",tag:"Crypto",c:"#0052ff",bg:"#e8f0ff",desc:"Pay from Coinbase wallet",cat:"Crypto",logo:"https://logo.clearbit.com/coinbase.com",url:"https://commerce.coinbase.com/pay?email={email}&amount={amount}&company={company}"},
+{id:"ramp",name:"Ramp Network",min:4,cur:"$",tag:"Global",c:"#21bf73",bg:"#e6f9f0",desc:"Card or bank transfer worldwide",cat:"Credit Card",logo:"https://logo.clearbit.com/ramp.network",url:"https://buy.ramp.network/?userEmailAddress={email}&fiatValue={amount}&hostAppName={company}"},
+{id:"switchere",name:"Switchere",min:5,cur:"$",tag:"EU",c:"#f7931a",bg:"#fef3e2",desc:"Instant crypto exchange with cards",cat:"Credit Card",logo:"https://logo.clearbit.com/switchere.com",url:"https://switchere.com/widget?email={email}&amount={amount}&partner={company}"},
+{id:"robinhood",name:"Robinhood",min:5,cur:"$",tag:"USA",c:"#00c805",bg:"#e6fbe7",desc:"Commission-free investing app",cat:"Credit Card",logo:"https://logo.clearbit.com/robinhood.com",url:"https://robinhood.com/checkout?email={email}&amount={amount}&ref={company}"},
+{id:"unlimit",name:"Unlimit",min:10,cur:"$",tag:"Global",c:"#ff5722",bg:"#fff0ec",desc:"Multi-currency payment solutions",cat:"Credit Card",logo:"https://logo.clearbit.com/unlimit.com",url:"https://pay.unlimit.com/?email={email}&amount={amount}&merchant={company}"},
+{id:"bitnovo",name:"Bitnovo",min:10,cur:"$",tag:"EU",c:"#1e88e5",bg:"#e3f2fd",desc:"Buy crypto with cash or card",cat:"Credit Card",logo:"https://logo.clearbit.com/bitnovo.com",url:"https://widget.bitnovo.com/?email={email}&amount={amount}&partner={company}"},
+{id:"swipelux",name:"Swipelux",min:14,cur:"$",tag:"Global",c:"#7c4dff",bg:"#f3eeff",desc:"Seamless fiat-to-crypto onramp",cat:"Credit Card",logo:"https://logo.clearbit.com/swipelux.com",url:"https://buy.swipelux.com/?email={email}&amount={amount}&partner={company}"},
+{id:"alchemypay",name:"Alchemy Pay",min:15,cur:"$",tag:"Global",c:"#2962ff",bg:"#e8eeff",desc:"Hybrid crypto-fiat payment",cat:"Credit Card",logo:"https://logo.clearbit.com/alchemypay.org",url:"https://ramp.alchemypay.org/?email={email}&amount={amount}&appId={company}"},
+{id:"revolut",name:"Revolut",min:15,cur:"$",tag:"Global",c:"#0075eb",bg:"#e5f2ff",desc:"Digital banking & crypto",cat:"Credit Card",logo:"https://logo.clearbit.com/revolut.com",url:"https://pay.revolut.com/?email={email}&amount={amount}&merchant={company}"},
+{id:"transak",name:"Transak",min:15,cur:"$",tag:"Global",c:"#0064ff",bg:"#e5efff",desc:"Fiat on-ramp aggregator",cat:"Credit Card",logo:"https://logo.clearbit.com/transak.com",url:"https://global.transak.com/?email={email}&fiatAmount={amount}&partnerName={company}"},
+{id:"kado",name:"Kado",min:15,cur:"$",tag:"Global",c:"#6366f1",bg:"#eef0ff",desc:"On/off ramp for Web3",cat:"Credit Card",logo:"https://logo.clearbit.com/kado.money",url:"https://app.kado.money/?email={email}&amount={amount}&product={company}"},
+{id:"moonpay",name:"MoonPay",min:20,cur:"$",tag:"Global",c:"#7b61ff",bg:"#f1edff",desc:"Buy crypto with card or bank",cat:"Credit Card",logo:"https://logo.clearbit.com/moonpay.com",url:"https://buy.moonpay.com/?email={email}&baseCurrencyAmount={amount}&ref={company}"},
+{id:"banxa",name:"Banxa",min:20,cur:"$",tag:"Global",c:"#00d2ff",bg:"#e5f9ff",desc:"Global fiat-to-crypto gateway",cat:"Credit Card",logo:"https://logo.clearbit.com/banxa.com",url:"https://checkout.banxa.com/?email={email}&fiatAmount={amount}&partner={company}"},
+{id:"guardarian",name:"Guardarian",min:20,cur:"$",tag:"EU",c:"#3f51b5",bg:"#ebeeff",desc:"Non-custodial crypto exchange",cat:"Credit Card",logo:"https://logo.clearbit.com/guardarian.com",url:"https://guardarian.com/buy?email={email}&amount={amount}&partner={company}"},
+{id:"changenow",name:"ChangeNOW",min:20,cur:"$",tag:"Global",c:"#00c26f",bg:"#e5f8f0",desc:"Limitless crypto exchange",cat:"Credit Card",logo:"https://logo.clearbit.com/changenow.io",url:"https://changenow.io/exchange?email={email}&amount={amount}&ref={company}"},
+{id:"mercuryo",name:"mercuryo.io",min:30,cur:"$",tag:"Global",c:"#4fc3f7",bg:"#e5f5ff",desc:"Crypto widget for businesses",cat:"Credit Card",logo:"https://logo.clearbit.com/mercuryo.io",url:"https://exchange.mercuryo.io/?email={email}&amount={amount}&merchant_id={company}"},
+{id:"simpleswap",name:"SimpleSwap",min:30,cur:"$",tag:"Global",c:"#5856d6",bg:"#eeedff",desc:"Free from sign-up crypto swap",cat:"Credit Card",logo:"https://logo.clearbit.com/simpleswap.io",url:"https://simpleswap.io/exchange?email={email}&amount={amount}&ref={company}"},
+{id:"sardine",name:"Sardine.ai",min:30,cur:"$",tag:"USA",c:"#1a73e8",bg:"#e5f0ff",desc:"Fraud-free crypto onramp",cat:"Credit Card",logo:"https://logo.clearbit.com/sardine.ai",url:"https://sardine.ai/checkout?email={email}&amount={amount}&clientId={company}"},
+{id:"particle",name:"particle.network",min:30,cur:"$",tag:"Web3",c:"#9c27b0",bg:"#f5e9f7",desc:"Web3 wallet-as-a-service",cat:"Credit Card",logo:"https://logo.clearbit.com/particle.network",url:"https://ramp.particle.network/?email={email}&amount={amount}&projectName={company}"},
+{id:"simplex",name:"Simplex",min:50,cur:"$",tag:"Global",c:"#ff6d00",bg:"#fff3e0",desc:"Trusted fiat-crypto infrastructure",cat:"Credit Card",logo:"https://logo.clearbit.com/simplex.com",url:"https://checkout.simplex.com/?email={email}&amount={amount}&partner={company}"},
+{id:"utorg",name:"UTORG",min:50,cur:"$",tag:"Global",c:"#304ffe",bg:"#e6e9ff",desc:"Regulated crypto on-ramp",cat:"Credit Card",logo:"https://logo.clearbit.com/utorg.pro",url:"https://app.utorg.pro/?email={email}&amount={amount}&partner={company}"},
+{id:"transfi",name:"Transfi",min:70,cur:"$",tag:"Global",c:"#00897b",bg:"#e0f2f1",desc:"Cross-border payment rails",cat:"Credit Card",logo:"https://logo.clearbit.com/transfi.com",url:"https://buy.transfi.com/?email={email}&amount={amount}&partner={company}"},
+{id:"interac",name:"Interac",min:100,cur:"CA$",tag:"Canada",c:"#ffc107",bg:"#fff9e5",desc:"Canadian e-Transfer",cat:"Bank Transfer",logo:"https://logo.clearbit.com/interac.ca",url:"https://interac.ca/pay?email={email}&amount={amount}&merchant={company}"},
+{id:"upi",name:"UPI / IMPS",min:100,cur:"\u20B9",tag:"India",c:"#4caf50",bg:"#e8f5e9",desc:"Indian instant payments",cat:"UPI",logo:"https://upload.wikimedia.org/wikipedia/commons/e/e1/UPI-Logo-vector.svg",url:"https://upi.example.com/?email={email}&amount={amount}&merchant={company}"},
+{id:"crypto_placeholder",name:"Direct Crypto",min:10,cur:"$",tag:"Crypto",c:"#f7931a",bg:"#fff",desc:"Pay with Bitcoin, ETH, etc.",cat:"Crypto",logo:"https://upload.wikimedia.org/wikipedia/commons/4/46/Bitcoin.svg",url:"#"}
 ];
 
 var q=new URLSearchParams(location.search);
@@ -178,10 +167,17 @@ var company=q.get("company")||"Company";
 var billing=q.get("billing")||"One-time";
 var total=q.get("total")||"0.00";
 var email=q.get("email")||"";
+var logo=q.get("logo")||"";
 var num=parseFloat(total.replace(/[^0-9.]/g,""))||0;
 var fmt="$"+num.toFixed(2);
 
 document.getElementById("companyName").textContent=company;
+if(logo){
+ var lb=document.getElementById("logoBox");
+ lb.style.border="none";
+ lb.style.background="transparent";
+ lb.innerHTML='<img src="'+logo+'" style="width:100%;height:100%;object-fit:contain;border-radius:6px">';
+}
 document.getElementById("billingValue").textContent=billing;
 document.getElementById("totalDisplay").textContent=fmt;
 document.getElementById("totalSmall").textContent=fmt;
@@ -196,20 +192,29 @@ var sel=null;
 
 function ini(n){return n.split(/[\s.]+/).map(function(w){return w[0]}).join("").substring(0,2).toUpperCase()}
 
-var RATES={"CA$":1.40,"\u20B9":84}; // Approximate rates: 1 USD = 1.40 CAD, 84 INR
+var RATES={"CA$":1.40,"\u20B9":84};
 
+var lastCat=null;
 P.forEach(function(p){
 var val=num;
 if(p.cur!=="$" && RATES[p.cur]){
  val=num*RATES[p.cur];
 }
 var low=(val>0 && val<p.min);
-if(low) return; // Hide unavailable methods
+if(low) return;
+
+if(p.cat !== lastCat){
+ var c=document.createElement("div");
+ c.className="pay-cat";
+ c.textContent=p.cat;
+ list.appendChild(c);
+ lastCat=p.cat;
+}
 
 var b=document.createElement("button");
 b.className="pay-btn";
 b.setAttribute("data-id",p.id);
-b.innerHTML='<div class="pi" style="background:'+p.bg+';color:'+p.c+'">'+ini(p.name)+'</div><div class="pm"><div class="pm-name">'+p.name+'</div><div class="pm-desc">'+p.desc+'</div></div><span class="pm-tag">'+p.tag+'</span><span class="pm-min ok">Min '+p.cur+p.min+'</span>';
+b.innerHTML='<div class="pi" style="background:'+p.bg+';color:'+p.c+'"><img src="'+p.logo+'" onerror="this.style.display=\'none\';this.parentNode.textContent=\''+ini(p.name)+'\'"></div><div class="pm"><div class="pm-name">'+p.name+'</div><div class="pm-desc">'+p.desc+'</div></div><span class="pm-tag">'+p.tag+'</span><span class="pm-min ok">Min '+p.cur+p.min+'</span>';
 b.addEventListener("click",function(){pick(p.id)});
 list.appendChild(b);
 });
@@ -223,7 +228,6 @@ var prov=P.find(function(p){return p.id===id});
 cb.textContent="Pay with "+prov.name;
 cb.disabled=false;
 cb.className="checkout-btn";
-document.getElementById("urlHint").style.display="none";
 }
 
 cb.addEventListener("click",function(){
@@ -235,10 +239,12 @@ list.querySelectorAll(".pay-btn").forEach(function(b){b.classList.add("disabled"
 cb.classList.add("loading");cb.disabled=true;
 var prov=P.find(function(p){return p.id===sel});
 var url=prov.url.replace("{email}",encodeURIComponent(e)).replace("{amount}",encodeURIComponent(num)).replace("{company}",encodeURIComponent(company));
-var h=document.getElementById("urlHint");
-h.innerHTML="<strong>Redirect URL for "+prov.name+":</strong><br><code>"+url+"</code><br><br><strong>Template:</strong><br><code>"+prov.url+"</code><br><br><strong>Usage:</strong><br><code>selector.html?company=Acme&amp;billing=Monthly&amp;total=49.99&amp;email=user@mail.com</code>";
-h.style.display="block";
-setTimeout(function(){cb.classList.remove("loading");cb.textContent="Redirecting\u2026";},2000);
+
+setTimeout(function(){
+ cb.classList.remove("loading");
+ cb.textContent="Redirecting\u2026";
+ window.location.href = url;
+},1500);
 });
 })();
 </script>
