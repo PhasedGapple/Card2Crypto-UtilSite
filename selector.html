@@ -177,6 +177,9 @@ var billing=q.get("billing")||"One-time";
 var total=q.get("total")||"0.00";
 var email=q.get("email")||"";
 var logo=q.get("logo")||"";
+const params = new URLSearchParams(window.location.search);
+
+const addrRaw = params.get("cryptoaddress") || "";
 while (addr.includes("%")) {
     try {
         const decoded = decodeURIComponent(addr);
