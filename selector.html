@@ -1,47 +1,426 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-   <meta charset="UTF-8">
-   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-   <title>Select your Payment provider</title>
-   <style>
-       body {
-           font-family: Arial, sans-serif;
-           margin: 20px;
-           background-color: #f4f4f4;
-       }
-       header, footer {
-           background-color: #333;
-           color: white;
-           padding: 10px;
-       }
-       nav a {
-           color: white;
-           margin-right: 15px;
-           text-decoration: none;
-       }
-       article {
-           background: white;
-           padding: 15px;
-           margin-top: 10px;
-       }
-   </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout - Select Payment Provider</title>
+    <style>
+        *, *::before, *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-primary: #0a0a0a;
+            --bg-secondary: #141414;
+            --bg-card: #1a1a1a;
+            --bg-card-hover: #222222;
+            --border-color: #2a2a2a;
+            --border-hover: #3a3a3a;
+            --text-primary: #fafafa;
+            --text-secondary: #a0a0a0;
+            --text-muted: #666666;
+            --accent-stripe: #635bff;
+            --accent-coinbase: #0052ff;
+            --accent-ramp: #21bf73;
+            --accent-switchere: #f7931a;
+            --radius: 12px;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 24px;
+            line-height: 1.5;
+        }
+
+        .checkout-container {
+            width: 100%;
+            max-width: 520px;
+            display: flex;
+            flex-direction: column;
+            gap: 32px;
+        }
+
+        /* Logo Placeholder */
+        .logo-area {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+        }
+
+        .logo-placeholder {
+            width: 48px;
+            height: 48px;
+            border-radius: 10px;
+            background-color: var(--bg-card);
+            border: 1px dashed var(--border-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-muted);
+            font-size: 11px;
+            font-weight: 500;
+            letter-spacing: 0.02em;
+        }
+
+        .logo-text {
+            font-size: 20px;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            color: var(--text-primary);
+        }
+
+        /* Header */
+        .checkout-header {
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .checkout-header h1 {
+            font-size: 28px;
+            font-weight: 700;
+            letter-spacing: -0.03em;
+            color: var(--text-primary);
+        }
+
+        .checkout-header p {
+            font-size: 15px;
+            color: var(--text-secondary);
+            max-width: 380px;
+            margin: 0 auto;
+        }
+
+        /* Divider */
+        .divider {
+            height: 1px;
+            background: var(--border-color);
+            width: 100%;
+        }
+
+        /* Payment Buttons */
+        .payment-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .payment-btn {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            width: 100%;
+            padding: 18px 20px;
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-decoration: none;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .payment-btn:hover {
+            background-color: var(--bg-card-hover);
+            border-color: var(--border-hover);
+            transform: translateY(-1px);
+        }
+
+        .payment-btn:active {
+            transform: translateY(0);
+        }
+
+        .payment-btn::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 3px;
+            border-radius: 0 2px 2px 0;
+            opacity: 0;
+            transition: opacity 0.2s ease;
+        }
+
+        .payment-btn:hover::before {
+            opacity: 1;
+        }
+
+        .payment-btn.stripe::before { background-color: var(--accent-stripe); }
+        .payment-btn.coinbase::before { background-color: var(--accent-coinbase); }
+        .payment-btn.ramp::before { background-color: var(--accent-ramp); }
+        .payment-btn.switchere::before { background-color: var(--accent-switchere); }
+
+        .payment-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .payment-icon svg {
+            width: 24px;
+            height: 24px;
+        }
+
+        .stripe .payment-icon { background-color: rgba(99, 91, 255, 0.12); }
+        .coinbase .payment-icon { background-color: rgba(0, 82, 255, 0.12); }
+        .ramp .payment-icon { background-color: rgba(33, 191, 115, 0.12); }
+        .switchere .payment-icon { background-color: rgba(247, 147, 26, 0.12); }
+
+        .payment-info {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+            flex: 1;
+            min-width: 0;
+        }
+
+        .payment-name {
+            font-size: 15px;
+            font-weight: 600;
+            color: var(--text-primary);
+            letter-spacing: -0.01em;
+        }
+
+        .payment-desc {
+            font-size: 13px;
+            color: var(--text-secondary);
+        }
+
+        .payment-tag {
+            font-size: 11px;
+            font-weight: 600;
+            padding: 3px 8px;
+            border-radius: 6px;
+            letter-spacing: 0.03em;
+            text-transform: uppercase;
+            flex-shrink: 0;
+        }
+
+        .stripe .payment-tag {
+            background-color: rgba(99, 91, 255, 0.12);
+            color: #a19dff;
+        }
+
+        .coinbase .payment-tag {
+            background-color: rgba(0, 82, 255, 0.12);
+            color: #6699ff;
+        }
+
+        .ramp .payment-tag {
+            background-color: rgba(33, 191, 115, 0.12);
+            color: #5ee0a0;
+        }
+
+        .switchere .payment-tag {
+            background-color: rgba(247, 147, 26, 0.12);
+            color: #f7b95e;
+        }
+
+        .payment-arrow {
+            color: var(--text-muted);
+            flex-shrink: 0;
+            transition: transform 0.2s ease, color 0.2s ease;
+        }
+
+        .payment-btn:hover .payment-arrow {
+            transform: translateX(2px);
+            color: var(--text-secondary);
+        }
+
+        /* Secure badge */
+        .secure-badge {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            padding: 10px;
+            color: var(--text-muted);
+            font-size: 12px;
+        }
+
+        .secure-badge svg {
+            width: 14px;
+            height: 14px;
+        }
+
+        /* Footer */
+        footer {
+            margin-top: 8px;
+            text-align: center;
+            padding: 16px;
+            color: var(--text-muted);
+            font-size: 13px;
+            border-top: 1px solid var(--border-color);
+            width: 100%;
+            max-width: 520px;
+        }
+
+        footer a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: color 0.15s ease;
+        }
+
+        footer a:hover {
+            color: var(--text-primary);
+        }
+
+        /* Responsive */
+        @media (max-width: 480px) {
+            body {
+                padding: 16px;
+            }
+
+            .checkout-header h1 {
+                font-size: 22px;
+            }
+
+            .payment-btn {
+                padding: 14px 16px;
+            }
+
+            .payment-icon {
+                width: 40px;
+                height: 40px;
+            }
+
+            .payment-tag {
+                display: none;
+            }
+        }
+
+        /* Focus styles for accessibility */
+        .payment-btn:focus-visible {
+            outline: 2px solid var(--text-primary);
+            outline-offset: 2px;
+        }
+    </style>
 </head>
 <body>
-<header>
-   <h1>Welcome to My Website</h1>
-   <nav>
-       <a href="#home">Home</a>
-       <a href="#about">About</a>
-   </nav>
-</header>
-<article>
-   <h2>About This Page</h2>
-   <p>This is a simple HTML page example with basic structure and styling.</p>
-   <img src="https://via.placeholder.com/300" alt="Sample Image">
-</article>
-<footer>
-   <p>© 2024 My Website</p>
-</footer>
+
+    <div class="checkout-container">
+
+        <!-- Logo -->
+        <div class="logo-area">
+            <div class="logo-placeholder">LOGO</div>
+            <span class="logo-text">PhasedGapple</span>
+        </div>
+
+        <!-- Header -->
+        <div class="checkout-header">
+            <h1>Select Payment Provider</h1>
+            <p>Choose how you'd like to complete your purchase. All methods are secure and encrypted.</p>
+        </div>
+
+        <div class="divider"></div>
+
+        <!-- Payment Buttons -->
+        <div class="payment-grid" role="list">
+
+            <!-- Stripe -->
+            <a href="#" class="payment-btn stripe" role="listitem" aria-label="Pay with Stripe">
+                <div class="payment-icon">
+                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M13.976 9.15c-2.172-.806-3.356-1.426-3.356-2.409 0-.831.683-1.305 1.901-1.305 2.227 0 4.515.858 6.09 1.631l.89-5.494C18.252.975 15.697 0 12.165 0 9.667 0 7.589.654 6.104 1.872 4.56 3.147 3.757 4.918 3.757 7.038c0 4.72 2.891 6.559 6.01 7.827 2.089.853 2.822 1.544 2.822 2.514 0 1-.871 1.621-2.47 1.621-1.91 0-4.795-.94-6.737-2.165l-.89 5.568C4.17 23.397 7.108 24 10.046 24c2.65 0 4.79-.632 6.29-1.834 1.636-1.308 2.487-3.178 2.487-5.418 0-4.89-2.956-6.65-6.106-7.88l1.259.282z" fill="#635bff"/>
+                    </svg>
+                </div>
+                <div class="payment-info">
+                    <span class="payment-name">Stripe</span>
+                    <span class="payment-desc">Credit & debit cards, Apple Pay, Google Pay</span>
+                </div>
+                <span class="payment-tag">USA</span>
+                <svg class="payment-arrow" width="16" height="16" viewBox="0 0 16 16" fill="none">
+                    <path d="M6 3l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </a>
+
+            <!-- Coinbase Pay -->
+            <a href="#" class="payment-btn coinbase" role="listitem" aria-label="Pay with Coinbase Pay">
+                <div class="payment-icon">
+                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 15.5c-3.04 0-5.5-2.46-5.5-5.5S8.96 6.5 12 6.5s5.5 2.46 5.5 5.5-2.46 5.5-5.5 5.5z" fill="#0052ff"/>
+                        <circle cx="12" cy="12" r="3" fill="#0052ff"/>
+                    </svg>
+                </div>
+                <div class="payment-info">
+                    <span class="payment-name">Coinbase Pay</span>
+                    <span class="payment-desc">Pay directly from your Coinbase wallet</span>
+                </div>
+                <span class="payment-tag">Crypto</span>
+                <svg class="payment-arrow" width="16" height="16" viewBox="0 0 16 16" fill="none">
+                    <path d="M6 3l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </a>
+
+            <!-- Ramp Network -->
+            <a href="#" class="payment-btn ramp" role="listitem" aria-label="Pay with Ramp Network">
+                <div class="payment-icon">
+                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 18L12 6l8 12H4z" fill="#21bf73" fill-opacity="0.3"/>
+                        <path d="M6 18L12 8l6 10H6z" fill="#21bf73"/>
+                    </svg>
+                </div>
+                <div class="payment-info">
+                    <span class="payment-name">Ramp Network</span>
+                    <span class="payment-desc">Buy crypto with card or bank transfer</span>
+                </div>
+                <span class="payment-tag">Global</span>
+                <svg class="payment-arrow" width="16" height="16" viewBox="0 0 16 16" fill="none">
+                    <path d="M6 3l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </a>
+
+            <!-- Switchere -->
+            <a href="#" class="payment-btn switchere" role="listitem" aria-label="Pay with Switchere">
+                <div class="payment-icon">
+                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M7 10l5-5 5 5" stroke="#f7931a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M17 14l-5 5-5-5" stroke="#f7931a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <line x1="12" y1="5" x2="12" y2="19" stroke="#f7931a" stroke-width="2" stroke-linecap="round"/>
+                    </svg>
+                </div>
+                <div class="payment-info">
+                    <span class="payment-name">Switchere</span>
+                    <span class="payment-desc">Instant crypto exchange with card payments</span>
+                </div>
+                <span class="payment-tag">EU</span>
+                <svg class="payment-arrow" width="16" height="16" viewBox="0 0 16 16" fill="none">
+                    <path d="M6 3l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </a>
+
+        </div>
+
+        <!-- Secure Badge -->
+        <div class="secure-badge">
+            <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M8 1.33L3.33 3.67v3.66c0 3.4 2 6.57 4.67 7.34 2.67-.77 4.67-3.94 4.67-7.34V3.67L8 1.33z" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M5.67 8l1.66 1.67L10.67 6" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <span>All transactions are secure and encrypted</span>
+        </div>
+
+    </div>
+
+    <footer>
+        <p>&copy; 2026 <a href="#">PhasedGapple</a>. All rights reserved.</p>
+    </footer>
+
 </body>
 </html>
