@@ -179,7 +179,7 @@ var email=q.get("email")||"";
 var logo=q.get("logo")||"";
 const params = new URLSearchParams(window.location.search);
 
-const addrRaw = params.get("cryptoaddress") || "";
+const addr = params.get("cryptoaddress") || "";
 while (addr.includes("%")) {
     try {
         const decoded = decodeURIComponent(addr);
