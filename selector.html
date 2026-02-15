@@ -86,13 +86,18 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica N
 .powered a:hover{color:#1a1f36}
 
 /* mobile */
-@media(max-width:860px){
+@media(max-width:960px){
 .layout{flex-direction:column}
-.left{width:100%;flex-shrink:unset}
-.left-inner{max-width:100%;margin-left:0;padding:28px 20px}
-.order-total{font-size:28px}
+.left{width:100%;flex-shrink:unset;min-height:auto}
+.left-inner{max-width:100%;margin-left:0;padding:32px 24px}
+.order-total{font-size:32px}
 .right{justify-content:center}
-.right-inner{max-width:100%;padding:24px 20px}
+.right-inner{max-width:100%;padding:32px 24px}
+}
+@media(max-width:480px){
+.left-inner{padding:24px 20px}
+.right-inner{padding:24px 20px}
+.order-total{font-size:28px}
 }
 </style>
 </head>
@@ -191,13 +196,21 @@ var sel=null;
 
 function ini(n){return n.split(/[\s.]+/).map(function(w){return w[0]}).join("").substring(0,2).toUpperCase()}
 
+var RATES={"CA$":1.40,"\u20B9":84}; // Approximate rates: 1 USD = 1.40 CAD, 84 INR
+
 P.forEach(function(p){
-var low=(p.cur==="$"&&num>0&&num<p.min);
+var val=num;
+if(p.cur!=="$" && RATES[p.cur]){
+ val=num*RATES[p.cur];
+}
+var low=(val>0 && val<p.min);
+if(low) return; // Hide unavailable methods
+
 var b=document.createElement("button");
-b.className="pay-btn"+(low?" disabled":"");
+b.className="pay-btn";
 b.setAttribute("data-id",p.id);
-b.innerHTML='<div class="pi" style="background:'+p.bg+';color:'+p.c+'">'+ini(p.name)+'</div><div class="pm"><div class="pm-name">'+p.name+'</div><div class="pm-desc">'+p.desc+'</div></div><span class="pm-tag">'+p.tag+'</span><span class="pm-min '+(low?"low":"ok")+'">Min '+p.cur+p.min+'</span>';
-if(!low)b.addEventListener("click",function(){pick(p.id)});
+b.innerHTML='<div class="pi" style="background:'+p.bg+';color:'+p.c+'">'+ini(p.name)+'</div><div class="pm"><div class="pm-name">'+p.name+'</div><div class="pm-desc">'+p.desc+'</div></div><span class="pm-tag">'+p.tag+'</span><span class="pm-min ok">Min '+p.cur+p.min+'</span>';
+b.addEventListener("click",function(){pick(p.id)});
 list.appendChild(b);
 });
 
