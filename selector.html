@@ -142,7 +142,6 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica N
 
 <script>
 (function(){
-var addr = new URLSearchParams(window.location.search).get("cryptoaddress");
 var P = [
 {id:"stripe",name:"Stripe (USA only)",min:2,cur:"$",tag:"USA",c:"#635bff",bg:"#eeedff",desc:"Buy using Stripe Link!",cat:"Credit Card",logo:"https://www.google.com/s2/favicons?domain=stripe.com&sz=128",url:"https://pay.card2crypto.org/process-payment.php?email={email}&currency=USD&amount={amount}&provider=stripe&address={addr}"},
 {id:"coinbase",name:"Coinbase Pay",min:2,cur:"$",tag:"Crypto",c:"#0052ff",bg:"#e8f0ff",desc:"Handle Credit-Card payment though Coinbase",cat:"Credit Card",logo:"https://www.google.com/s2/favicons?domain=coinbase.com&sz=128",url:"https://pay.card2crypto.org/process-payment.php?email={email}&currency=USD&amount={amount}&provider=coinbase&address="},
@@ -178,6 +177,7 @@ var billing=q.get("billing")||"One-time";
 var total=q.get("total")||"0.00";
 var email=q.get("email")||"";
 var logo=q.get("logo")||"";
+ var addr = new URLSearchParams(window.location.search).get("cryptoaddress");
 var num=parseFloat(total.replace(/[^0-9.]/g,""))||0;
 var fmt="$"+num.toFixed(2);
 
@@ -266,7 +266,11 @@ ei.style.borderColor="";ei.style.boxShadow="";
 list.querySelectorAll(".pay-btn").forEach(function(b){b.classList.add("disabled")});
 cb.classList.add("loading");cb.disabled=true;
 var prov=P.find(function(p){return p.id===sel});
-var url=prov.url.replace("{email}",encodeURIComponent(e)).replace("{amount}",encodeURIComponent(num)).replace("{company}",encodeURIComponent(company));
+var url = prov.url
+    .replace("{email}", encodeURIComponent(e))
+    .replace("{amount}", encodeURIComponent(num))
+    .replace("{company}", encodeURIComponent(company))
+    .replace("{addr}", encodeURIComponent(addr));
 
 setTimeout(function(){
  cb.classList.remove("loading");
