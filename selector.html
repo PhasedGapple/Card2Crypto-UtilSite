@@ -142,7 +142,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica N
 
 <script>
 (function(){
-var addr = params.get("cryptoaddress");
+var addr = URLSearchParams(window.location.search).get("cryptoaddress");
 var P = [
 {id:"stripe",name:"Stripe (USA only)",min:2,cur:"$",tag:"USA",c:"#635bff",bg:"#eeedff",desc:"Buy using Stripe Link!",cat:"Credit Card",logo:"https://www.google.com/s2/favicons?domain=stripe.com&sz=128",url:"https://pay.card2crypto.org/process-payment.php?email={email}&currency=USD&amount={amount}&provider=stripe&address={addr}"},
 {id:"coinbase",name:"Coinbase Pay",min:2,cur:"$",tag:"Crypto",c:"#0052ff",bg:"#e8f0ff",desc:"Handle Credit-Card payment though Coinbase",cat:"Credit Card",logo:"https://www.google.com/s2/favicons?domain=coinbase.com&sz=128",url:"https://pay.card2crypto.org/process-payment.php?email={email}&currency=USD&amount={amount}&provider=coinbase&address="},
