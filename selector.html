@@ -154,7 +154,7 @@ var P = [
 {id:"alchemypay",name:"Alchemy Pay",min:15,cur:"$",tag:"Global",c:"#2962ff",bg:"#e8eeff",desc:"Hybrid crypto-fiat payment",cat:"Credit Card",logo:"https://www.google.com/s2/favicons?domain=alchemypay.org&sz=128",url:"https://pay.card2crypto.org/process-payment.php?email={email}&currency=USD&amount={amount}&provider=alchemypay&address={addr}"},
 {id:"revolut",name:"Revolut",min:15,cur:"$",tag:"Global",c:"#0075eb",bg:"#e5f2ff",desc:"Digital banking & crypto",cat:"Credit Card",logo:"https://www.google.com/s2/favicons?domain=revolut.com&sz=128",url:"https://pay.card2crypto.org/process-payment.php?email={email}&currency=USD&amount={amount}&provider=revolut&address={addr}"},
 {id:"transak",name:"Transak",min:15,cur:"$",tag:"Global",c:"#0064ff",bg:"#e5efff",desc:"Fiat on-ramp aggregator",cat:"Credit Card",logo:"https://www.google.com/s2/favicons?domain=transak.com&sz=128",url:"https://pay.card2crypto.org/process-payment.php?email={email}&currency=USD&amount={amount}&provider=transak&address={addr}"},
-{id:"kado",name:"Kado",min:15,cur:"$",tag:"Global",c:"#6366f1",bg:"#eef0ff",desc:"On/off ramp for Web3",cat:"Credit Card",logo:"https://www.google.com/s2/favicons?domain=kado.money&sz=128",url:"https://pay.card2crypto.org/process-payment.php?email={email}&currency=USD&amount={amount}&provider=kado&address={params.get(addr}"},
+{id:"kado",name:"Kado",min:15,cur:"$",tag:"Global",c:"#6366f1",bg:"#eef0ff",desc:"On/off ramp for Web3",cat:"Credit Card",logo:"https://www.google.com/s2/favicons?domain=kado.money&sz=128",url:"https://pay.card2crypto.org/process-payment.php?email={email}&currency=USD&amount={amount}&provider=kado&address={addr}"},
 {id:"moonpay",name:"MoonPay",min:20,cur:"$",tag:"Global",c:"#7b61ff",bg:"#f1edff",desc:"Buy crypto with card or bank",cat:"Credit Card",logo:"https://www.google.com/s2/favicons?domain=moonpay.com&sz=128",url:"https://pay.card2crypto.org/process-payment.php?email={email}&currency=USD&amount={amount}&provider=moonpay&address={addr}"},
 {id:"banxa",name:"Banxa",min:20,cur:"$",tag:"Global",c:"#00d2ff",bg:"#e5f9ff",desc:"Global fiat-to-crypto gateway",cat:"Credit Card",logo:"https://www.google.com/s2/favicons?domain=banxa.com&sz=128",url:"https://pay.card2crypto.org/process-payment.php?email={email}&currency=USD&amount={amount}&provider=banxa&address={addr}"},
 {id:"guardarian",name:"Guardarian",min:20,cur:"$",tag:"EU",c:"#3f51b5",bg:"#ebeeff",desc:"Non-custodial crypto exchange",cat:"Credit Card",logo:"https://www.google.com/s2/favicons?domain=guardarian.com&sz=128",url:"https://pay.card2crypto.org/process-payment.php?email={email}&currency=USD&amount={amount}&provider=guardarian&address={addr}"},
@@ -180,15 +180,6 @@ var logo=q.get("logo")||"";
 const params = new URLSearchParams(window.location.search);
 
 const addr = params.get("cryptoaddress") || "";
-while (addr.includes("%")) {
-    try {
-        const decoded = decodeURIComponent(addr);
-        if (decoded === addr) break;
-        addr = decoded;
-    } catch {
-        break;
-    }
-}
 var num=parseFloat(total.replace(/[^0-9.]/g,""))||0;
 var fmt="$"+num.toFixed(2);
 
