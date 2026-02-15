@@ -1,581 +1,235 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Checkout</title>
-    <style>
-        *, *::before, *::after {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-M
-        :root {
-            --bg: #f6f9fc;
-            --bg-panel: #ffffff;
-            --bg-sidebar: #1a1f36;
-            --text-dark: #1a1f36;
-            --text-mid: #3c4257;
-            --text-light: #6b7c93;
-            --text-white: #ffffff;
-            --text-white-mid: rgba(255,255,255,0.7);
-            --border: #e3e8ee;
-            --accent: #635bff;
-            --accent-hover: #5851ea;
-            --radius: 8px;
-            --shadow-sm: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
-            --shadow-md: 0 4px 12px rgba(0,0,0,0.07), 0 1px 3px rgba(0,0,0,0.04);
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Checkout</title>
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;background:#f5f5f7;color:#1a1f36;min-height:100vh;display:flex;-webkit-font-smoothing:antialiased;line-height:1.5}
+.layout{display:flex;width:100%;min-height:100vh}
 
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-            background-color: var(--bg);
-            color: var(--text-dark);
-            min-height: 100vh;
-            display: flex;
-            line-height: 1.5;
-            -webkit-font-smoothing: antialiased;
-        }
+/* ── LEFT PANEL ── */
+.left{width:440px;background:#1a1f36;color:#fff;display:flex;flex-direction:column;flex-shrink:0}
+.left-inner{padding:48px 40px;display:flex;flex-direction:column;height:100%;max-width:380px;margin-left:auto}
+.logo-row{display:flex;align-items:center;gap:10px;margin-bottom:32px}
+.logo-box{width:32px;height:32px;border-radius:6px;background:rgba(255,255,255,.1);border:1px dashed rgba(255,255,255,.3);display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,.5);font-size:8px;font-weight:700;letter-spacing:.04em;text-transform:uppercase}
+.company-name{font-size:15px;font-weight:500;color:rgba(255,255,255,.9)}
 
-        /* Two-panel Stripe-style layout */
-        .checkout-layout {
-            display: flex;
-            width: 100%;
-            min-height: 100vh;
-        }
+.order-label{font-size:12px;color:rgba(255,255,255,.5);text-transform:uppercase;letter-spacing:.05em;font-weight:600;margin-bottom:4px}
+.order-total{font-size:36px;font-weight:700;letter-spacing:-.02em;margin-bottom:24px}
 
-        /* Left dark sidebar with order summary */
-        .checkout-sidebar {
-            width: 45%;
-            background-color: var(--bg-sidebar);
-            color: var(--text-white);
-            padding: 48px 48px 48px 60px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            position: relative;
-        }
+.line-items{display:flex;flex-direction:column;gap:0;flex:1}
+.line-item{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid rgba(255,255,255,.07)}
+.line-item:last-child{border-bottom:none}
+.li-label{font-size:13px;color:rgba(255,255,255,.55)}
+.li-value{font-size:13px;font-weight:500;color:#fff}
+.total-line{margin-top:8px;padding-top:12px;border-top:1px solid rgba(255,255,255,.12);display:flex;justify-content:space-between;align-items:center}
+.tl-label{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:rgba(255,255,255,.5)}
+.tl-value{font-size:13px;font-weight:600}
 
-        .checkout-sidebar::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            right: 0;
-            bottom: 0;
-            width: 1px;
-            background: rgba(255,255,255,0.06);
-        }
+.secure-badge{margin-top:auto;padding-top:32px;display:flex;align-items:center;gap:5px;color:rgba(255,255,255,.25);font-size:10px}
+.secure-badge svg{width:10px;height:10px}
 
-        .sidebar-content {
-            max-width: 380px;
-            margin-left: auto;
-            display: flex;
-            flex-direction: column;
-            gap: 32px;
-        }
+/* ── RIGHT PANEL ── */
+.right{flex:1;display:flex;justify-content:flex-start;overflow-y:auto;background:#f5f5f7}
+.right-inner{width:100%;max-width:480px;padding:48px 40px;display:flex;flex-direction:column}
 
-        .logo-area {
-            display: flex;
-            align-items: center;
-            gap: 14px;
-        }
+.section-label{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:#6b7c93;margin-bottom:8px}
 
-        .logo-placeholder {
-            width: 44px;
-            height: 44px;
-            border-radius: 8px;
-            background-color: rgba(255,255,255,0.1);
-            border: 1px dashed rgba(255,255,255,0.25);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: rgba(255,255,255,0.5);
-            font-size: 10px;
-            font-weight: 600;
-            letter-spacing: 0.05em;
-            text-transform: uppercase;
-        }
+/* email */
+.email-wrap{margin-bottom:20px}
+.email-input{width:100%;height:40px;padding:0 12px;font-size:14px;font-family:inherit;border:1px solid #d8dee4;border-radius:6px;background:#fff;color:#1a1f36;outline:none;transition:border .15s,box-shadow .15s}
+.email-input:focus{border-color:#635bff;box-shadow:0 0 0 3px rgba(99,91,255,.12)}
+.email-input.locked{background:#f0f2f5;color:#8892a0;cursor:not-allowed;border-color:#e3e8ee}
 
-        .logo-text {
-            font-size: 18px;
-            font-weight: 600;
-            color: var(--text-white);
-        }
+/* divider */
+.divider{display:flex;align-items:center;gap:8px;margin:4px 0 16px;font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:#9ca3af}
+.divider::before,.divider::after{content:'';flex:1;height:1px;background:#e3e8ee}
 
-        .order-summary {
-            display: flex;
-            flex-direction: column;
-            gap: 24px;
-        }
+/* payment list */
+.pay-scroll{display:flex;flex-direction:column;gap:4px;flex:1;overflow-y:auto;margin-bottom:16px;padding-right:2px}
+.pay-scroll::-webkit-scrollbar{width:3px}
+.pay-scroll::-webkit-scrollbar-track{background:transparent}
+.pay-scroll::-webkit-scrollbar-thumb{background:#d0d5dd;border-radius:3px}
 
-        .order-summary h2 {
-            font-size: 36px;
-            font-weight: 700;
-            letter-spacing: -0.02em;
-            color: var(--text-white);
-        }
+.pay-btn{display:flex;align-items:center;gap:10px;width:100%;padding:10px 12px;background:#fff;border:1.5px solid #e3e8ee;border-radius:6px;cursor:pointer;transition:all .12s;text-align:left;font-family:inherit}
+.pay-btn:hover{border-color:#c4c9d2}
+.pay-btn.selected{border-color:#635bff;background:#fafaff;box-shadow:0 0 0 2.5px rgba(99,91,255,.1)}
+.pay-btn.disabled{opacity:.4;pointer-events:none;filter:grayscale(30%)}
 
-        .order-details {
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
-        }
+.pi{width:32px;height:32px;border-radius:5px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:11px;font-weight:700}
+.pm{flex:1;min-width:0}
+.pm-name{font-size:13px;font-weight:600;color:#1a1f36;line-height:1.2}
+.pm-desc{font-size:11px;color:#8892a0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pm-tag{font-size:9px;font-weight:700;padding:2px 5px;border-radius:3px;background:#f0f2f5;color:#6b7c93;flex-shrink:0;text-transform:uppercase;letter-spacing:.03em}
+.pm-min{font-size:9px;font-weight:600;padding:2px 5px;border-radius:3px;flex-shrink:0;white-space:nowrap}
+.pm-min.ok{background:#f0f2f5;color:#6b7c93}
+.pm-min.low{background:#fef2f2;color:#dc2626}
 
-        .order-item {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 12px 0;
-            border-bottom: 1px solid rgba(255,255,255,0.08);
-        }
+/* checkout */
+.checkout-btn{width:100%;height:44px;font-size:14px;font-weight:600;color:#fff;background:#635bff;border:none;border-radius:6px;cursor:pointer;transition:all .12s;font-family:inherit;position:relative;overflow:hidden}
+.checkout-btn:hover:not(:disabled){background:#5147e5}
+.checkout-btn:disabled{cursor:not-allowed}
+.checkout-btn.idle{background:#a5b4c4;color:rgba(255,255,255,.8)}
+.checkout-btn.loading{background:#4338ca;color:transparent}
+.checkout-btn.loading::after{content:'';position:absolute;width:18px;height:18px;top:50%;left:50%;margin:-9px 0 0 -9px;border:2px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:spin .55s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
 
-        .order-item-label {
-            font-size: 14px;
-            color: var(--text-white-mid);
-        }
+/* url hint */
+.url-hint{display:none;margin-top:8px;padding:12px;background:#fff;border:1px solid #e3e8ee;border-radius:6px;font-size:11px;color:#4b5563;word-break:break-all;line-height:1.7}
+.url-hint strong{color:#1a1f36;font-size:11px}
+.url-hint code{background:#f0f2f5;padding:1px 4px;border-radius:3px;font-size:10px;font-family:'SF Mono',Consolas,monospace;color:#374151}
 
-        .order-item-value {
-            font-size: 14px;
-            font-weight: 500;
-            color: var(--text-white);
-        }
+.powered{text-align:center;font-size:10px;color:#a0aab4;padding-top:16px;margin-top:auto}
+.powered a{color:#8892a0;text-decoration:none;font-weight:500}
+.powered a:hover{color:#1a1f36}
 
-        .order-total {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding-top: 16px;
-        }
-
-        .order-total-label {
-            font-size: 14px;
-            font-weight: 500;
-            color: var(--text-white-mid);
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-        }
-
-        .order-total-value {
-            font-size: 28px;
-            font-weight: 700;
-            color: var(--text-white);
-        }
-
-        .sidebar-footer {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            color: rgba(255,255,255,0.35);
-            font-size: 12px;
-            margin-top: auto;
-            padding-top: 48px;
-        }
-
-        .sidebar-footer svg {
-            width: 12px;
-            height: 12px;
-        }
-
-        /* Right panel with payment methods */
-        .checkout-main {
-            flex: 1;
-            padding: 48px 60px 48px 48px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-        }
-
-        .main-content {
-            max-width: 420px;
-            display: flex;
-            flex-direction: column;
-            gap: 28px;
-        }
-
-        .main-header {
-            display: flex;
-            flex-direction: column;
-            gap: 6px;
-        }
-
-        .main-header h1 {
-            font-size: 20px;
-            font-weight: 600;
-            color: var(--text-dark);
-            letter-spacing: -0.01em;
-        }
-
-        .main-header p {
-            font-size: 14px;
-            color: var(--text-light);
-        }
-
-        .payment-methods {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-
-        .payment-btn {
-            display: flex;
-            align-items: center;
-            gap: 14px;
-            width: 100%;
-            padding: 16px 18px;
-            background-color: var(--bg-panel);
-            border: 1px solid var(--border);
-            border-radius: var(--radius);
-            cursor: pointer;
-            transition: all 0.15s ease;
-            text-decoration: none;
-            color: inherit;
-            box-shadow: var(--shadow-sm);
-        }
-
-        .payment-btn:hover {
-            box-shadow: var(--shadow-md);
-            border-color: #d0d5dd;
-        }
-
-        .payment-btn:active {
-            box-shadow: var(--shadow-sm);
-        }
-
-        .payment-btn:focus-visible {
-            outline: 2px solid var(--accent);
-            outline-offset: 2px;
-        }
-
-        .payment-icon {
-            width: 40px;
-            height: 40px;
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-shrink: 0;
-        }
-
-        .payment-icon svg {
-            width: 22px;
-            height: 22px;
-        }
-
-        .stripe-icon { background: #f0efff; }
-        .coinbase-icon { background: #e8f0ff; }
-        .ramp-icon { background: #e6f9f0; }
-        .switchere-icon { background: #fef3e2; }
-
-        .payment-info {
-            flex: 1;
-            min-width: 0;
-            display: flex;
-            flex-direction: column;
-            gap: 1px;
-        }
-
-        .payment-name {
-            font-size: 14px;
-            font-weight: 600;
-            color: var(--text-dark);
-        }
-
-        .payment-desc {
-            font-size: 13px;
-            color: var(--text-light);
-        }
-
-        .payment-tag {
-            font-size: 11px;
-            font-weight: 600;
-            padding: 2px 8px;
-            border-radius: 4px;
-            letter-spacing: 0.04em;
-            text-transform: uppercase;
-            flex-shrink: 0;
-            background: var(--bg);
-            color: var(--text-light);
-            border: 1px solid var(--border);
-        }
-
-        .payment-arrow {
-            color: #c1c7cd;
-            flex-shrink: 0;
-            transition: transform 0.15s ease, color 0.15s ease;
-        }
-
-        .payment-btn:hover .payment-arrow {
-            transform: translateX(2px);
-            color: var(--text-light);
-        }
-
-        /* Separator */
-        .separator {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            color: var(--text-light);
-            font-size: 12px;
-            font-weight: 500;
-            text-transform: uppercase;
-            letter-spacing: 0.06em;
-        }
-
-        .separator::before,
-        .separator::after {
-            content: '';
-            flex: 1;
-            height: 1px;
-            background: var(--border);
-        }
-
-        .secure-notice {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 6px;
-            font-size: 12px;
-            color: var(--text-light);
-            padding-top: 8px;
-        }
-
-        .secure-notice svg {
-            width: 13px;
-            height: 13px;
-            color: #6b7c93;
-        }
-
-        .powered-by {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 5px;
-            font-size: 12px;
-            color: #a3acb9;
-            padding-top: 4px;
-        }
-
-        .powered-by a {
-            color: #6b7c93;
-            text-decoration: none;
-            font-weight: 500;
-        }
-
-        .powered-by a:hover {
-            color: var(--text-dark);
-        }
-
-        /* Mobile */
-        @media (max-width: 860px) {
-            .checkout-layout {
-                flex-direction: column;
-            }
-
-            .checkout-sidebar {
-                width: 100%;
-                padding: 32px 24px;
-            }
-
-            .checkout-sidebar::after {
-                display: none;
-            }
-
-            .sidebar-content {
-                max-width: 100%;
-                margin-left: 0;
-                gap: 24px;
-            }
-
-            .order-summary h2 {
-                font-size: 28px;
-            }
-
-            .order-total-value {
-                font-size: 24px;
-            }
-
-            .sidebar-footer {
-                padding-top: 24px;
-            }
-
-            .checkout-main {
-                padding: 32px 24px;
-            }
-
-            .main-content {
-                max-width: 100%;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .checkout-sidebar {
-                padding: 24px 16px;
-            }
-
-            .checkout-main {
-                padding: 24px 16px;
-            }
-
-            .payment-btn {
-                padding: 14px 14px;
-            }
-
-            .payment-tag {
-                display: none;
-            }
-        }
-    </style>
+/* mobile */
+@media(max-width:860px){
+.layout{flex-direction:column}
+.left{width:100%;flex-shrink:unset}
+.left-inner{max-width:100%;margin-left:0;padding:28px 20px}
+.order-total{font-size:28px}
+.right{justify-content:center}
+.right-inner{max-width:100%;padding:24px 20px}
+}
+</style>
 </head>
 <body>
+<div class="layout">
 
-    <div class="checkout-layout">
+<!-- LEFT PANEL -->
+<div class="left">
+<div class="left-inner">
+<div class="logo-row">
+<div class="logo-box">Logo</div>
+<span class="company-name" id="companyName">Company</span>
+</div>
+<div class="order-label">Total due</div>
+<div class="order-total" id="totalDisplay">$0.00</div>
+<div class="line-items">
+<div class="line-item"><span class="li-label">Billing</span><span class="li-value" id="billingValue">One-time</span></div>
+</div>
+<div class="total-line"><span class="tl-label">Amount due</span><span class="tl-value" id="totalSmall">$0.00</span></div>
+<div class="secure-badge"><svg viewBox="0 0 16 16" fill="none"><path d="M8 1.33L3.33 3.67v3.66c0 3.4 2 6.57 4.67 7.34 2.67-.77 4.67-3.94 4.67-7.34V3.67L8 1.33z" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Secured with 256-bit SSL</span></div>
+</div>
+</div>
 
-        <!-- Left: Dark sidebar with order info -->
-        <aside class="checkout-sidebar">
-            <div class="sidebar-content">
+<!-- RIGHT PANEL -->
+<div class="right">
+<div class="right-inner">
 
-                <div class="logo-area">
-                    <div class="logo-placeholder">Logo</div>
-                    <span class="logo-text">Your Company</span>
-                </div>
+<div class="email-wrap">
+<div class="section-label">Contact</div>
+<input class="email-input" type="email" id="emailInput" placeholder="Email" autocomplete="email">
+</div>
 
-                <div class="order-summary">
-                    <h2>Checkout</h2>
+<div class="divider">Select payment method</div>
 
-                    <div class="order-details">
-                        <div class="order-item">
-                            <span class="order-item-label">Product</span>
-                            <span class="order-item-value">Premium Plan</span>
-                        </div>
-                        <div class="order-item">
-                            <span class="order-item-label">Billing</span>
-                            <span class="order-item-value">Monthly</span>
-                        </div>
-                        <div class="order-item">
-                            <span class="order-item-label">Subtotal</span>
-                            <span class="order-item-value">$49.00</span>
-                        </div>
-                    </div>
+<div class="pay-scroll" id="payList"></div>
 
-                    <div class="order-total">
-                        <span class="order-total-label">Total due</span>
-                        <span class="order-total-value">$49.00</span>
-                    </div>
-                </div>
+<button class="checkout-btn idle" id="checkoutBtn" disabled>Select a provider</button>
+<div class="url-hint" id="urlHint"></div>
 
-                <div class="sidebar-footer">
-                    <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M8 1.33L3.33 3.67v3.66c0 3.4 2 6.57 4.67 7.34 2.67-.77 4.67-3.94 4.67-7.34V3.67L8 1.33z" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
-                    </svg>
-                    <span>Secure 256-bit SSL encryption</span>
-                </div>
+<div class="powered">Powered by <a href="#" id="footCompany">Company</a></div>
 
-            </div>
-        </aside>
+</div>
+</div>
+</div>
 
-        <!-- Right: Payment method selection -->
-        <main class="checkout-main">
-            <div class="main-content">
+<script>
+(function(){
+var P=[
+{id:"stripe",name:"Stripe",min:2,cur:"$",tag:"USA",c:"#635bff",bg:"#eeedff",desc:"Cards, Apple Pay, Google Pay",url:"https://stripe-checkout.example.com/?email={email}&amount={amount}&company={company}"},
+{id:"coinbase",name:"Coinbase Pay",min:2,cur:"$",tag:"Crypto",c:"#0052ff",bg:"#e8f0ff",desc:"Pay from Coinbase wallet",url:"https://commerce.coinbase.com/pay?email={email}&amount={amount}&company={company}"},
+{id:"ramp",name:"Ramp Network",min:4,cur:"$",tag:"Global",c:"#21bf73",bg:"#e6f9f0",desc:"Card or bank transfer worldwide",url:"https://buy.ramp.network/?userEmailAddress={email}&fiatValue={amount}&hostAppName={company}"},
+{id:"switchere",name:"Switchere",min:5,cur:"$",tag:"EU",c:"#f7931a",bg:"#fef3e2",desc:"Instant crypto exchange with cards",url:"https://switchere.com/widget?email={email}&amount={amount}&partner={company}"},
+{id:"robinhood",name:"Robinhood",min:5,cur:"$",tag:"USA",c:"#00c805",bg:"#e6fbe7",desc:"Commission-free investing app",url:"https://robinhood.com/checkout?email={email}&amount={amount}&ref={company}"},
+{id:"unlimit",name:"Unlimit",min:10,cur:"$",tag:"Global",c:"#ff5722",bg:"#fff0ec",desc:"Multi-currency payment solutions",url:"https://pay.unlimit.com/?email={email}&amount={amount}&merchant={company}"},
+{id:"bitnovo",name:"Bitnovo",min:10,cur:"$",tag:"EU",c:"#1e88e5",bg:"#e3f2fd",desc:"Buy crypto with cash or card",url:"https://widget.bitnovo.com/?email={email}&amount={amount}&partner={company}"},
+{id:"swipelux",name:"Swipelux",min:14,cur:"$",tag:"Global",c:"#7c4dff",bg:"#f3eeff",desc:"Seamless fiat-to-crypto onramp",url:"https://buy.swipelux.com/?email={email}&amount={amount}&partner={company}"},
+{id:"alchemypay",name:"Alchemy Pay",min:15,cur:"$",tag:"Global",c:"#2962ff",bg:"#e8eeff",desc:"Hybrid crypto-fiat payment",url:"https://ramp.alchemypay.org/?email={email}&amount={amount}&appId={company}"},
+{id:"revolut",name:"Revolut",min:15,cur:"$",tag:"Global",c:"#0075eb",bg:"#e5f2ff",desc:"Digital banking & crypto",url:"https://pay.revolut.com/?email={email}&amount={amount}&merchant={company}"},
+{id:"transak",name:"Transak",min:15,cur:"$",tag:"Global",c:"#0064ff",bg:"#e5efff",desc:"Fiat on-ramp aggregator",url:"https://global.transak.com/?email={email}&fiatAmount={amount}&partnerName={company}"},
+{id:"kado",name:"Kado",min:15,cur:"$",tag:"Global",c:"#6366f1",bg:"#eef0ff",desc:"On/off ramp for Web3",url:"https://app.kado.money/?email={email}&amount={amount}&product={company}"},
+{id:"moonpay",name:"MoonPay",min:20,cur:"$",tag:"Global",c:"#7b61ff",bg:"#f1edff",desc:"Buy crypto with card or bank",url:"https://buy.moonpay.com/?email={email}&baseCurrencyAmount={amount}&ref={company}"},
+{id:"banxa",name:"Banxa",min:20,cur:"$",tag:"Global",c:"#00d2ff",bg:"#e5f9ff",desc:"Global fiat-to-crypto gateway",url:"https://checkout.banxa.com/?email={email}&fiatAmount={amount}&partner={company}"},
+{id:"guardarian",name:"Guardarian",min:20,cur:"$",tag:"EU",c:"#3f51b5",bg:"#ebeeff",desc:"Non-custodial crypto exchange",url:"https://guardarian.com/buy?email={email}&amount={amount}&partner={company}"},
+{id:"changenow",name:"ChangeNOW",min:20,cur:"$",tag:"Global",c:"#00c26f",bg:"#e5f8f0",desc:"Limitless crypto exchange",url:"https://changenow.io/exchange?email={email}&amount={amount}&ref={company}"},
+{id:"mercuryo",name:"mercuryo.io",min:30,cur:"$",tag:"Global",c:"#4fc3f7",bg:"#e5f5ff",desc:"Crypto widget for businesses",url:"https://exchange.mercuryo.io/?email={email}&amount={amount}&merchant_id={company}"},
+{id:"simpleswap",name:"SimpleSwap",min:30,cur:"$",tag:"Global",c:"#5856d6",bg:"#eeedff",desc:"Free from sign-up crypto swap",url:"https://simpleswap.io/exchange?email={email}&amount={amount}&ref={company}"},
+{id:"sardine",name:"Sardine.ai",min:30,cur:"$",tag:"USA",c:"#1a73e8",bg:"#e5f0ff",desc:"Fraud-free crypto onramp",url:"https://sardine.ai/checkout?email={email}&amount={amount}&clientId={company}"},
+{id:"particle",name:"particle.network",min:30,cur:"$",tag:"Web3",c:"#9c27b0",bg:"#f5e9f7",desc:"Web3 wallet-as-a-service",url:"https://ramp.particle.network/?email={email}&amount={amount}&projectName={company}"},
+{id:"simplex",name:"Simplex",min:50,cur:"$",tag:"Global",c:"#ff6d00",bg:"#fff3e0",desc:"Trusted fiat-crypto infrastructure",url:"https://checkout.simplex.com/?email={email}&amount={amount}&partner={company}"},
+{id:"utorg",name:"UTORG",min:50,cur:"$",tag:"Global",c:"#304ffe",bg:"#e6e9ff",desc:"Regulated crypto on-ramp",url:"https://app.utorg.pro/?email={email}&amount={amount}&partner={company}"},
+{id:"transfi",name:"Transfi",min:70,cur:"$",tag:"Global",c:"#00897b",bg:"#e0f2f1",desc:"Cross-border payment rails",url:"https://buy.transfi.com/?email={email}&amount={amount}&partner={company}"},
+{id:"interac",name:"Interac",min:100,cur:"CA$",tag:"Canada",c:"#ffc107",bg:"#fff9e5",desc:"Canadian e-Transfer",url:"https://interac.ca/pay?email={email}&amount={amount}&merchant={company}"},
+{id:"upi",name:"UPI / IMPS",min:100,cur:"\u20B9",tag:"India",c:"#4caf50",bg:"#e8f5e9",desc:"Indian instant payments",url:"https://upi.example.com/?email={email}&amount={amount}&merchant={company}"}
+];
 
-                <div class="main-header">
-                    <h1>Select a payment method</h1>
-                    <p>All transactions are secure and encrypted.</p>
-                </div>
+var q=new URLSearchParams(location.search);
+var company=q.get("company")||"Company";
+var billing=q.get("billing")||"One-time";
+var total=q.get("total")||"0.00";
+var email=q.get("email")||"";
+var num=parseFloat(total.replace(/[^0-9.]/g,""))||0;
+var fmt="$"+num.toFixed(2);
 
-                <div class="payment-methods" role="list">
+document.getElementById("companyName").textContent=company;
+document.getElementById("billingValue").textContent=billing;
+document.getElementById("totalDisplay").textContent=fmt;
+document.getElementById("totalSmall").textContent=fmt;
+document.getElementById("footCompany").textContent=company;
+document.title="Checkout \u2014 "+company;
 
-                    <!-- Stripe -->
-                    <a href="#" class="payment-btn" role="listitem" aria-label="Pay with Stripe">
-                        <div class="payment-icon stripe-icon">
-                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M13.976 9.15c-2.172-.806-3.356-1.426-3.356-2.409 0-.831.683-1.305 1.901-1.305 2.227 0 4.515.858 6.09 1.631l.89-5.494C18.252.975 15.697 0 12.165 0 9.667 0 7.589.654 6.104 1.872 4.56 3.147 3.757 4.918 3.757 7.038c0 4.72 2.891 6.559 6.01 7.827 2.089.853 2.822 1.544 2.822 2.514 0 1-.871 1.621-2.47 1.621-1.91 0-4.795-.94-6.737-2.165l-.89 5.568C4.17 23.397 7.108 24 10.046 24c2.65 0 4.79-.632 6.29-1.834 1.636-1.308 2.487-3.178 2.487-5.418 0-4.89-2.956-6.65-6.106-7.88l1.259.282z" fill="#635bff"/>
-                            </svg>
-                        </div>
-                        <div class="payment-info">
-                            <span class="payment-name">Stripe</span>
-                            <span class="payment-desc">Cards, Apple Pay, Google Pay</span>
-                        </div>
-                        <span class="payment-tag">USA</span>
-                        <svg class="payment-arrow" width="16" height="16" viewBox="0 0 16 16" fill="none">
-                            <path d="M6 3l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                        </svg>
-                    </a>
+var ei=document.getElementById("emailInput");
+if(email){ei.value=email;ei.readOnly=true;ei.classList.add("locked")}
 
-                    <!-- Coinbase Pay -->
-                    <a href="#" class="payment-btn" role="listitem" aria-label="Pay with Coinbase Pay">
-                        <div class="payment-icon coinbase-icon">
-                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 15.5c-3.04 0-5.5-2.46-5.5-5.5S8.96 6.5 12 6.5s5.5 2.46 5.5 5.5-2.46 5.5-5.5 5.5z" fill="#0052ff"/>
-                                <circle cx="12" cy="12" r="3" fill="#0052ff"/>
-                            </svg>
-                        </div>
-                        <div class="payment-info">
-                            <span class="payment-name">Coinbase Pay</span>
-                            <span class="payment-desc">Pay from your Coinbase wallet</span>
-                        </div>
-                        <span class="payment-tag">Crypto</span>
-                        <svg class="payment-arrow" width="16" height="16" viewBox="0 0 16 16" fill="none">
-                            <path d="M6 3l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                        </svg>
-                    </a>
+var list=document.getElementById("payList");
+var sel=null;
 
-                    <!-- Ramp Network -->
-                    <a href="#" class="payment-btn" role="listitem" aria-label="Pay with Ramp Network">
-                        <div class="payment-icon ramp-icon">
-                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M4 18L12 6l8 12H4z" fill="#21bf73" fill-opacity="0.3"/>
-                                <path d="M6 18L12 8l6 10H6z" fill="#21bf73"/>
-                            </svg>
-                        </div>
-                        <div class="payment-info">
-                            <span class="payment-name">Ramp Network</span>
-                            <span class="payment-desc">Card or bank transfer worldwide</span>
-                        </div>
-                        <span class="payment-tag">Global</span>
-                        <svg class="payment-arrow" width="16" height="16" viewBox="0 0 16 16" fill="none">
-                            <path d="M6 3l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                        </svg>
-                    </a>
+function ini(n){return n.split(/[\s.]+/).map(function(w){return w[0]}).join("").substring(0,2).toUpperCase()}
 
-                    <!-- Switchere -->
-                    <a href="#" class="payment-btn" role="listitem" aria-label="Pay with Switchere">
-                        <div class="payment-icon switchere-icon">
-                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M7 10l5-5 5 5" stroke="#f7931a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                                <path d="M17 14l-5 5-5-5" stroke="#f7931a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                                <line x1="12" y1="5" x2="12" y2="19" stroke="#f7931a" stroke-width="2" stroke-linecap="round"/>
-                            </svg>
-                        </div>
-                        <div class="payment-info">
-                            <span class="payment-name">Switchere</span>
-                            <span class="payment-desc">Instant crypto exchange with cards</span>
-                        </div>
-                        <span class="payment-tag">EU</span>
-                        <svg class="payment-arrow" width="16" height="16" viewBox="0 0 16 16" fill="none">
-                            <path d="M6 3l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                        </svg>
-                    </a>
+P.forEach(function(p){
+var low=(p.cur==="$"&&num>0&&num<p.min);
+var b=document.createElement("button");
+b.className="pay-btn"+(low?" disabled":"");
+b.setAttribute("data-id",p.id);
+b.innerHTML='<div class="pi" style="background:'+p.bg+';color:'+p.c+'">'+ini(p.name)+'</div><div class="pm"><div class="pm-name">'+p.name+'</div><div class="pm-desc">'+p.desc+'</div></div><span class="pm-tag">'+p.tag+'</span><span class="pm-min '+(low?"low":"ok")+'">Min '+p.cur+p.min+'</span>';
+if(!low)b.addEventListener("click",function(){pick(p.id)});
+list.appendChild(b);
+});
 
-                </div>
+var cb=document.getElementById("checkoutBtn");
 
-                <div class="secure-notice">
-                    <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M8 1.33L3.33 3.67v3.66c0 3.4 2 6.57 4.67 7.34 2.67-.77 4.67-3.94 4.67-7.34V3.67L8 1.33z" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
-                        <path d="M5.67 8l1.66 1.67L10.67 6" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
-                    </svg>
-                    <span>Protected by industry-standard encryption</span>
-                </div>
+function pick(id){
+sel=id;
+list.querySelectorAll(".pay-btn").forEach(function(b){b.classList.toggle("selected",b.getAttribute("data-id")===id)});
+var prov=P.find(function(p){return p.id===id});
+cb.textContent="Pay with "+prov.name;
+cb.disabled=false;
+cb.className="checkout-btn";
+document.getElementById("urlHint").style.display="none";
+}
 
-                <div class="powered-by">
-                    <span>Powered by</span>
-                    <a href="#">Your Company</a>
-                </div>
-
-            </div>
-        </main>
-
-    </div>
-
+cb.addEventListener("click",function(){
+if(!sel)return;
+var e=ei.value.trim();
+if(!e||!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e)){ei.style.borderColor="#dc2626";ei.style.boxShadow="0 0 0 3px rgba(220,38,38,.12)";ei.focus();return}
+ei.style.borderColor="";ei.style.boxShadow="";
+list.querySelectorAll(".pay-btn").forEach(function(b){b.classList.add("disabled")});
+cb.classList.add("loading");cb.disabled=true;
+var prov=P.find(function(p){return p.id===sel});
+var url=prov.url.replace("{email}",encodeURIComponent(e)).replace("{amount}",encodeURIComponent(num)).replace("{company}",encodeURIComponent(company));
+var h=document.getElementById("urlHint");
+h.innerHTML="<strong>Redirect URL for "+prov.name+":</strong><br><code>"+url+"</code><br><br><strong>Template:</strong><br><code>"+prov.url+"</code><br><br><strong>Usage:</strong><br><code>selector.html?company=Acme&amp;billing=Monthly&amp;total=49.99&amp;email=user@mail.com</code>";
+h.style.display="block";
+setTimeout(function(){cb.classList.remove("loading");cb.textContent="Redirecting\u2026";},2000);
+});
+})();
+</script>
 </body>
 </html>
+</content>
+</invoke>
