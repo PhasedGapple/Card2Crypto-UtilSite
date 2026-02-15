@@ -10,25 +10,24 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica N
 .layout{display:flex;width:100%;min-height:100vh}
 
 .left{width:440px;background:#1a1f36;color:#fff;display:flex;flex-direction:column;flex-shrink:0}
-.left-inner{padding:48px 40px;display:flex;flex-direction:column;height:100%;max-width:380px;margin-left:auto}
-.logo-row{display:flex;align-items:center;gap:10px;margin-bottom:32px}
-.logo-box{width:32px;height:32px;border-radius:6px;background:rgba(255,255,255,.1);border:1px dashed rgba(255,255,255,.3);display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,.5);font-size:8px;font-weight:700;letter-spacing:.04em;text-transform:uppercase}
-.company-name{font-size:15px;font-weight:500;color:rgba(255,255,255,.9)}
+.left-inner{padding:48px 40px;display:flex;flex-direction:column;height:100%;max-width:380px;margin:0 auto;justify-content:center;text-align:center}
+.logo-row{display:flex;align-items:center;justify-content:center;gap:14px;margin-bottom:48px}
+.logo-box{width:48px;height:48px;border-radius:10px;background:rgba(255,255,255,.1);border:1px dashed rgba(255,255,255,.3);display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,.5);font-size:10px;font-weight:700;letter-spacing:.04em;text-transform:uppercase}
+.company-name{font-size:20px;font-weight:600;color:rgba(255,255,255,.95)}
 
-.order-label{font-size:12px;color:rgba(255,255,255,.5);text-transform:uppercase;letter-spacing:.05em;font-weight:600;margin-bottom:4px}
-.order-total{font-size:36px;font-weight:700;letter-spacing:-.02em;margin-bottom:24px}
+.order-label{font-size:14px;color:rgba(255,255,255,.6);text-transform:uppercase;letter-spacing:.05em;font-weight:600;margin-bottom:8px}
+.order-total{font-size:48px;font-weight:700;letter-spacing:-.03em;margin-bottom:40px}
 
-.line-items{display:flex;flex-direction:column;gap:0;flex:1}
-.line-item{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid rgba(255,255,255,.07)}
-.line-item:last-child{border-bottom:none}
-.li-label{font-size:13px;color:rgba(255,255,255,.55)}
-.li-value{font-size:13px;font-weight:500;color:#fff}
-.total-line{margin-top:8px;padding-top:12px;border-top:1px solid rgba(255,255,255,.12);display:flex;justify-content:space-between;align-items:center}
-.tl-label{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:rgba(255,255,255,.5)}
-.tl-value{font-size:13px;font-weight:600}
+.line-items{display:flex;flex-direction:column;gap:0;flex:1;max-height:100px}
+.line-item{display:flex;justify-content:space-between;align-items:center;padding:16px 0;border-bottom:1px solid rgba(255,255,255,.1)}
+.li-label{font-size:15px;color:rgba(255,255,255,.65)}
+.li-value{font-size:15px;font-weight:500;color:#fff}
+.total-line{margin-top:24px;padding-top:24px;border-top:1px solid rgba(255,255,255,.15);display:flex;justify-content:space-between;align-items:center}
+.tl-label{font-size:13px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:rgba(255,255,255,.6)}
+.tl-value{font-size:16px;font-weight:600}
 
-.secure-badge{margin-top:auto;padding-top:32px;display:flex;align-items:center;gap:5px;color:rgba(255,255,255,.25);font-size:10px}
-.secure-badge svg{width:10px;height:10px}
+.secure-badge{margin-top:auto;padding-top:48px;display:flex;align-items:center;justify-content:center;gap:8px;color:rgba(255,255,255,.4);font-size:12px}
+.secure-badge svg{width:14px;height:14px}
 
 .right{flex:1;display:flex;justify-content:flex-start;overflow-y:auto;background:#f5f5f7}
 .right-inner{width:100%;max-width:1200px;padding:32px 32px;display:flex;flex-direction:column}
@@ -45,6 +44,9 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica N
 
 .pay-scroll{display:grid;grid-template-columns:1fr;align-content:start;gap:8px;flex:1;overflow-y:auto;overflow-x:hidden;margin-bottom:16px;padding-right:2px}
 .pay-scroll.two-col{grid-template-columns:repeat(2,minmax(0,1fr))}
+.pay-scroll:not(.two-col) .pay-btn{padding:12px 14px;min-height:56px}
+.pay-scroll:not(.two-col) .pm-name{font-size:14px}
+.pay-scroll:not(.two-col) .pm-desc{font-size:12px}
 .pay-scroll::-webkit-scrollbar{width:3px}
 .pay-scroll::-webkit-scrollbar-track{background:transparent}
 .pay-scroll::-webkit-scrollbar-thumb{background:#d0d5dd;border-radius:3px}
@@ -202,6 +204,7 @@ function ini(n){return n.split(/[\s.]+/).map(function(w){return w[0]}).join("").
 var RATES={"CA$":1.40,"\u20B9":84};
 
 var availP=P.filter(function(p){
+ if(p.cat==="Crypto")return true;
  var val=num;
  if(p.cur!=="$" && RATES[p.cur]) val=num*RATES[p.cur];
  return !(val>0 && val<p.min);
